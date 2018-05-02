@@ -136,8 +136,8 @@
   "Retrieve a timestamp.
   
   The format used is the same as python's 'time.time()' function - the number
-  of seconds since the epoch, as a double to acount for fractional seconds (since
-  the granularity is miliseconds)."
+  of seconds since the epoch, as a double to account for fractional seconds (since
+  the granularity is milliseconds)."
   []
   (double (/ (System/currentTimeMillis) 1000)))
 
