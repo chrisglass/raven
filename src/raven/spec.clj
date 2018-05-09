@@ -41,6 +41,7 @@
 (s/def ::frame (s/keys :req-un [::filename ::lineno ::function]))
 (s/def ::values (s/coll-of ::breadcrumb))
 (s/def ::frames (s/coll-of ::frame))
+(s/def ::fingerprint (s/coll-of string?))
 
 ;; The sentry interfaces. We use the alias name instead of the full interface path
 ;; as suggested in https://docs.sentry.io/clientdev/interfaces/
@@ -52,4 +53,4 @@
 
 ;; We declare the message spec in the raven.client namespace to allow easy
 ;; reference from there (simply "::payload" when using the spec).
-(s/def :raven.client/payload (s/keys :req-un [::event_id ::culprit ::level ::server_name ::timestamp ::platform] :opt-un [::breadcrumbs ::user ::request]))
+(s/def :raven.client/payload (s/keys :req-un [::event_id ::culprit ::level ::server_name ::timestamp ::platform] :opt-un [::breadcrumbs ::user ::request ::fingerprint]))

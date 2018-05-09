@@ -49,6 +49,9 @@
    :message "message"
    :category "category"})
 
+(def expected-fingerprint
+  ["Huginn" "og" "Muninn"])
+
 (def simple-http-info
   {:url "http://example.com"
    :method "POST"})
@@ -128,6 +131,16 @@
 
 (deftest manual-request
   (testing "http information is sent using a manual context"
-
     (let [context {:request (make-http-info (:url simple-http-info) (:method simple-http-info))}]
       (is (= simple-http-info (:request (payload context expected-message frozen-ts 42 frozen-uuid frozen-servername)))))))
+
+(deftest add-fingerprint
+  (testing "fingerprints can be added to the payload"
+    (do
+      (add-fingerprint! expected-fingerprint)
+      (is (= expected-fingerprint (:fingerprint (payload @@thread-storage expected-message frozen-ts 42 frozen-uuid frozen-servername)))))))
+
+(deftest manual-fingerprint
+  (testing "fingerprints are sent using a manual context"
+    (let [context (add-fingerprint! {} expected-fingerprint)]
+      (is (= expected-fingerprint (:fingerprint (payload context expected-message frozen-ts 42 frozen-uuid frozen-servername)))))))
